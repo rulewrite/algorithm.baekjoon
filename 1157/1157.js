@@ -1,7 +1,7 @@
 const input = (
   process.platform === 'linux'
     ? require('fs').readFileSync('/dev/stdin').toString()
-    : 'Mississipi'
+    : 'a'
 ).trim();
 
 // 데이터 전처리
@@ -29,10 +29,8 @@ english.forEach((alphabet) => {
 });
 
 // 최대 빈도 문자 구하기
-const [[firstAlphabet, firstCount], [, secondCount]] = [
-  ...alphabetToCount.entries(),
-].sort(([, aCount], [, bCount]) => {
+const sorted = [...alphabetToCount.entries()].sort(([, aCount], [, bCount]) => {
   return bCount - aCount;
 });
 
-console.log(firstCount === secondCount ? '?' : firstAlphabet);
+console.log(sorted[0][1] === sorted[1]?.[1] ? '?' : sorted[0][0]);
