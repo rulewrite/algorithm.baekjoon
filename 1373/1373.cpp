@@ -12,17 +12,18 @@ int main(void)
 
   string octal;
 
-  for (int i = input.length(); i >= 0; i -= 3)
+  int len = input.length();
+  int i = len % 3;
+
+  if (i != 0)
   {
-    std::string sliced = input.substr(std::max(i - 3, 0), i);
+    octal += std::to_string(std::bitset<3>(input.substr(0, i)).to_ulong());
+  }
 
-    if (sliced.empty())
-    {
-      break;
-    }
-
-    int binary = std::bitset<3>(sliced).to_ulong();
-    octal = std::to_string(binary) + octal;
+  while (i < len)
+  {
+    octal += std::to_string(std::bitset<3>(input.substr(i, 3)).to_ulong());
+    i += 3;
   }
 
   cout << octal;
