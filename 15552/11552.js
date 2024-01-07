@@ -10,12 +10,12 @@ const input = require('fs')
 
 const [, ...aBs] = input;
 
-aBs
+const result = aBs
   .map((aB) => {
     const [a, b] = aB.split(' ');
 
-    return [parseInt(a), parseInt(b)];
+    return parseInt(a) + parseInt(b);
   })
-  .map(([a, b]) => {
-    console.log(a + b);
-  });
+  .join('\n');
+
+console.log(result);
