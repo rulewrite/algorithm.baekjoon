@@ -7,4 +7,10 @@ const input = require('fs')
   .toString()
   .trim();
 
-console.log(parseInt(input, 2).toString(8));
+let octal = '';
+
+for (let i = input.length; i >= 0; i -= 3) {
+  octal = parseInt(input.slice(Math.max(i - 3, 0), i), 2).toString(8) + octal;
+}
+
+console.log(octal);
