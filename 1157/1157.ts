@@ -1,5 +1,5 @@
 // FIXME: 컴파일 에러가 나는데 원인을 모르겠다.
-const input = (
+const input: string = (
   process.platform === 'linux'
     ? require('fs').readFileSync('/dev/stdin').toString()
     : 'a'
@@ -7,23 +7,15 @@ const input = (
 
 // 데이터 전처리
 const [lowerMin, lowerMax] = ['A'.charCodeAt(0), 'Z'.charCodeAt(0)];
-const [upperMin, upperMax] = ['a'.charCodeAt(0), 'z'.charCodeAt(0)];
 
-const english = [...input]
-  .filter((_, index) => {
-    const ascii = input.charCodeAt(index);
+const english = [...input.toUpperCase()].filter((c) => {
+  const ascii = c.charCodeAt(0);
 
-    return (
-      (lowerMin <= ascii && ascii <= lowerMax) ||
-      (upperMin <= ascii && ascii <= upperMax)
-    );
-  })
-  .map((alphabet) => {
-    return alphabet.toUpperCase();
-  });
+  return lowerMin <= ascii && ascii <= lowerMax;
+});
 
 // 문자 카운팅
-const alphabetToCount = new Map();
+const alphabetToCount = new Map<string, number>();
 
 english.forEach((alphabet) => {
   alphabetToCount.set(alphabet, (alphabetToCount.get(alphabet) ?? 0) + 1);
