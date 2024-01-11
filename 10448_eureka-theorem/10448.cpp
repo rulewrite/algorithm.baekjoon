@@ -34,7 +34,7 @@ int main(void) {
       while (!isFound) {
         int secondDotCount = getDotCount(k);
 
-        if (secondDotCount >= triangle) {
+        if (firstDotCount + secondDotCount >= triangle) {
           break;
         }
 
