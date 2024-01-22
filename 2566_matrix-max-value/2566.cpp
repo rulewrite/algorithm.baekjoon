@@ -8,7 +8,7 @@ int main(void) {
 
   int const LENGTH = 9;
   int max = 0;
-  int position[2];
+  int position[2] = { 0,0 };
 
   for (int rowIndex = 0; rowIndex < LENGTH; ++rowIndex) {
     for (int colIndex = 0; colIndex < LENGTH; ++colIndex) {
