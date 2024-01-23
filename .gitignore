@@ -1,0 +1,8 @@
+# 바이너리 파일 무시
+*
+!*.*
+!*/
+
+tempCodeRunnerFile.cpp
+
+.DS_Store
