@@ -8,7 +8,7 @@ int main(void) {
   int fileCount;
   scanf("%d", &fileCount);
 
-  char filenames[fileCount][50];
+  char filenames[fileCount][51];
 
   for (int i = 0; i < fileCount; ++i) {
     scanf("%s", filenames[i]);
