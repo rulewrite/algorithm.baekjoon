@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stack>
+#include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -10,34 +12,41 @@ int main(void) {
   scanf("%d", &caseCount);
 
   for (; caseCount; --caseCount) {
-    int a;
-    int b;
-    scanf("%d %d", &a, &b);
+    string a;
+    string b;
 
-    int sum = a + b;
-    // printf("----%d\n", sum);
+    cin >> a;
+    cin >> b;
+
+    // printf("----%s %s\n", a.c_str(), b.c_str());
+
+    int aIndex = a.length() - 1;
+    int bIndex = b.length() - 1;
 
     stack<int> binary;
-    int upNum = 0;
-    while (sum) {
-      int num = (sum % 10) + upNum;
-      // printf("   %d + %d = %d -> %d\n", (sum % 10), upNum, num, num % 2);
+    int carry = 0;
+    while (aIndex >= 0 || bIndex >= 0 || carry) {
+      int sum = carry;
 
-      upNum = num / 2;
-      binary.push(num % 2);
+      if (aIndex >= 0) {
+        sum += a[aIndex] - '0';
+        --aIndex;
+      }
 
-      sum /= 10;
-    }
+      if (bIndex >= 0) {
+        sum += b[bIndex] - '0';
+        --bIndex;
+      }
 
-    while (upNum) {
-      binary.push(upNum % 2);
-      upNum /= 2;
+      carry = sum / 2;
+      binary.push(sum % 2);
     }
 
     while (!binary.empty()) {
       printf("%d", binary.top());
       binary.pop();
     }
+
     printf("\n");
   }
 
