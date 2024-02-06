@@ -42,9 +42,26 @@ int main(void) {
       binary.push(sum % 2);
     }
 
+    bool isMetOne = false;
+    bool isPrinted = false;
+
     while (!binary.empty()) {
-      printf("%d", binary.top());
+      int n = binary.top();
+
+      if (!isMetOne) {
+        isMetOne = n > 0;
+      }
+
+      if (isMetOne) {
+        isPrinted = true;
+        printf("%d", n);
+      }
+
       binary.pop();
+    }
+
+    if (!isPrinted) {
+      printf("0");
     }
 
     printf("\n");
