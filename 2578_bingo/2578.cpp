@@ -96,22 +96,17 @@ int main(void) {
   }
 
   int bingoCount = 0;
-  for (int rowIndex = 0; rowIndex < BINGO_SIZE; ++rowIndex) {
-    for (int colIndex = 0; colIndex < BINGO_SIZE; ++colIndex) {
-      int n = 0;
-      scanf("%d", &n);
+  int const LAST_INDEX = BINGO_SIZE * BINGO_SIZE;
+  for (int i = 0; i < LAST_INDEX; ++i) {
+    int n = 0;
+    scanf("%d", &n);
 
-      bingoCount += sign(n);
-      // printf("bingoCount %d, n: %d\n", bingoCount, n); // 13 > 3 > 25
-
-      if (bingoCount >= 3) {
-        printf("%d", (rowIndex + 1) * (colIndex + 1));
-
-        break;
-      }
-    }
+    bingoCount += sign(n);
+    // printf("bingoCount %d, n: %d\n", bingoCount, n); // 13 > 3 > 25
 
     if (bingoCount >= 3) {
+      printf("%d", i + 1);
+
       break;
     }
   }
