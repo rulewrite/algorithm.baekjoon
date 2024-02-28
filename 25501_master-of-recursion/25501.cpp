@@ -45,7 +45,8 @@ int main() {
     scanf("%s", text);
     // printf("%s\n", text);
 
-    printf("%d %d\n", isPalindrome(text), recursionCount);
+    int result = isPalindrome(text);
+    printf("%d %d\n", result, recursionCount);
   }
 
   return 0;
