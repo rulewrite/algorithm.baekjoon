@@ -1,6 +1,18 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
+
+bool compare(pair<int, int>& a, pair<int, int>& b) {
+  // 종료 시간이 같은 경우, 시작 시간이 더 빠른 회의를 먼저 오도록 설정
+  if (a.second == b.second) {
+    return a.first < b.first;
+  }
+
+  // 종료 시간이 더 빠른 회의를 먼저 오도록 설정
+  return a.second < b.second;
+}
+
 
 int main(void) {
   // freopen("example.txt", "r", stdin);
@@ -8,40 +20,19 @@ int main(void) {
   int meetingCount = 0;
   scanf("%d", &meetingCount);
 
-  int meetings[meetingCount][2];
+  pair<int, int> meetings[meetingCount];
   for (int i = 0; i < meetingCount; ++i) {
-    scanf("%d %d", &meetings[i][0], &meetings[i][1]);
+    scanf("%d %d", &meetings[i].first, &meetings[i].second);
   }
 
-  // 버블정렬
-  int lastIndex = meetingCount - 1;
-  for (int i = lastIndex; i > 0; --i) {
-    bool isSwapped = false;
-
-    for (int j = 0; j < i; ++j) {
-      int current = meetings[j][1];
-      int next = meetings[j + 1][1];
-
-      if (current > next) {
-        isSwapped = true;
-        int temp[2] = { meetings[j][0],meetings[j][1] };
-        meetings[j][0] = meetings[j + 1][0];
-        meetings[j][1] = meetings[j + 1][1];
-        meetings[j + 1][0] = temp[0];
-        meetings[j + 1][1] = temp[1];
-      }
-    }
-
-    if (!isSwapped) {
-      break;
-    }
-  }
+  // 종료 시간을 기준으로 오름차순 정렬
+  sort(meetings, meetings + meetingCount, compare);
 
   int count = 0;
   int lastTime = 0;
   for (int i = 0; i < meetingCount; ++i) {
-    int start = meetings[i][0];
-    int end = meetings[i][1];
+    int start = meetings[i].first;
+    int end = meetings[i].second;
 
     if (start >= lastTime) {
       // printf("%d %d\n", start, end);
