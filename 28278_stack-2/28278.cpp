@@ -6,11 +6,16 @@ class Stack {
 private:
   static int const INIT_TOP = -1;
   int top;
-  int elements[1000000];
+  int* elements;
 
 public:
-  Stack() {
+  Stack(int const MAX_SIZE) {
     top = INIT_TOP;
+    elements = new int[MAX_SIZE];
+  }
+
+  ~Stack() {
+    delete[] elements;
   }
 
   bool isEmpty() {
@@ -48,7 +53,7 @@ int main(void) {
   int n = 0;
   scanf("%d", &n);
 
-  Stack stack;
+  Stack stack(1e6);
   while (n--) {
     int ex = 0;
 
