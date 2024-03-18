@@ -57,6 +57,17 @@ public:
   }
 };
 
+int str_compare(char* str1, const char* str2) {
+  int idx = 0;
+
+  while (str1[idx] && str1[idx] == str2[idx]) {
+    idx++;
+  }
+
+  if (str1[idx]) return 0; // str1이랑 str2가 다르다
+  else return 1; // str1이랑 str2가 같다.
+}
+
 int main(void) {
   // freopen("example.txt", "r", stdin);
 
@@ -65,12 +76,12 @@ int main(void) {
 
   Queue queue(2e6);
   while (n--) {
-    string ex;
-    cin >> ex;
+    char ex[10];
+    scanf("%s ", ex);
 
     // printf("ex: %s ", ex.c_str());
 
-    if (ex == "push") {
+    if (str_compare(ex, "push")) {
       int element = 0;
       scanf("%d", &element);
       queue.push(element);
@@ -78,31 +89,31 @@ int main(void) {
       continue;
     }
 
-    if (ex == "pop") {
+    if (str_compare(ex, "pop")) {
       printf("%d\n", queue.pop());
 
       continue;
     }
 
-    if (ex == "size") {
+    if (str_compare(ex, "size")) {
       printf("%d\n", queue.size());
 
       continue;
     }
 
-    if (ex == "empty") {
+    if (str_compare(ex, "empty")) {
       printf("%d\n", queue.isEmpty());
 
       continue;
     }
 
-    if (ex == "front") {
+    if (str_compare(ex, "front")) {
       printf("%d\n", queue.front());
 
       continue;
     }
 
-    if (ex == "back") {
+    if (str_compare(ex, "back")) {
       printf("%d\n", queue.back());
 
       continue;
