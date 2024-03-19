@@ -28,11 +28,11 @@ public:
     return tail - head;
   }
 
-  void push(int element) {
+  void enqueue(int element) {
     elements[++tail] = element;
   }
 
-  int pop() {
+  int dequeue() {
     if (isEmpty()) {
       return -1;
     }
@@ -84,13 +84,13 @@ int main(void) {
     if (str_compare(ex, "push")) {
       int element = 0;
       scanf("%d", &element);
-      queue.push(element);
+      queue.enqueue(element);
 
       continue;
     }
 
     if (str_compare(ex, "pop")) {
-      printf("%d\n", queue.pop());
+      printf("%d\n", queue.dequeue());
 
       continue;
     }
