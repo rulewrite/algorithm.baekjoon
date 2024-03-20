@@ -80,7 +80,6 @@ int main(void) {
   // printf("\n");
 
   while (true) {
-    circularQueue.dequeue();
     int element = circularQueue.dequeue();
 
     if (circularQueue.isEmpty()) {
@@ -88,7 +87,7 @@ int main(void) {
       return 0;
     }
 
-    circularQueue.enqueue(element);
+    circularQueue.enqueue(circularQueue.dequeue());
   }
 
   return 0;
