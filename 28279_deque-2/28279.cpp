@@ -80,6 +80,17 @@ public:
     if (head == nullptr) {
       rear = nullptr;
     }
+    /**
+     * head가 된 노드가 가리키던 prev 제거
+     * 1. pushB < a
+     * 2. pushB < b: a(h) <-> b(r)
+     * 3. pop F > a: a    <-> b(hr)
+     * 4. pop B > b
+     * 했을 때 4번에서 rear = rear(b).prev(a)하는데, 해당 노드는 메모리 해제된 a 노드임.
+     */
+    else {
+      head->prev = nullptr;
+    }
 
     int result = poppedNode->element;
     delete poppedNode;
@@ -97,6 +108,9 @@ public:
     rear = poppedNode->prev;
     if (rear == nullptr) {
       head = nullptr;
+    }
+    else {
+      rear->next = nullptr;
     }
 
     int result = poppedNode->element;
