@@ -17,12 +17,10 @@
 
   const dfs = ({
     matrix,
-    visited,
     x,
     y,
   }: {
     matrix: Array<Array<boolean>>;
-    visited: Array<Array<boolean>>;
     x: number;
     y: number;
   }): void => {
@@ -36,16 +34,12 @@
     // console.log(x, y, around);
 
     around.forEach(([x, y]) => {
-      if (visited[x][y]) {
-        return;
-      }
-      visited[x][y] = true;
-
       if (!matrix[x][y]) {
         return;
       }
 
-      dfs({ matrix, visited, x, y });
+      matrix[x][y] = false;
+      dfs({ matrix, x, y });
     });
   };
 
@@ -74,23 +68,16 @@
     }
 
     // console.log('matrix', matrix);
-    const visited: Array<Array<boolean>> = new Array(rowCount)
-      .fill(null)
-      .map(() => new Array(colCount).fill(false));
     let count = 0;
     matrix.forEach((rows, x) => {
       rows.forEach((_, y) => {
-        if (visited[x][y]) {
-          return;
-        }
-        visited[x][y] = true;
-
         if (!matrix[x][y]) {
           return;
         }
 
         ++count;
-        dfs({ matrix, visited, x, y });
+        matrix[x][y] = false;
+        dfs({ matrix, x, y });
       });
     });
     console.log(count);
