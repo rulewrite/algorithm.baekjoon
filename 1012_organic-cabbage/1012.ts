@@ -26,25 +26,22 @@
     x: number;
     y: number;
   }): void => {
-    visited[x][y] = true;
-    const hasCabbage = matrix[x][y];
-
-    if (!hasCabbage) {
-      return;
-    }
-
+    // 상하좌우
     const around = [
       [x, Math.max(y - 1, 0)],
       [x, Math.min(y + 1, matrix[x].length - 1)],
       [Math.max(x - 1, 0), y],
       [Math.min(x + 1, matrix.length - 1), y],
     ];
-
     // console.log(x, y, around);
 
-    // 상하좌우
     around.forEach(([x, y]) => {
       if (visited[x][y]) {
+        return;
+      }
+      visited[x][y] = true;
+
+      if (!matrix[x][y]) {
         return;
       }
 
@@ -86,10 +83,9 @@
         if (visited[x][y]) {
           return;
         }
+        visited[x][y] = true;
 
         if (!matrix[x][y]) {
-          visited[x][y] = true;
-
           return;
         }
 
