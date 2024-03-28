@@ -33,9 +33,10 @@
     return result;
   };
 
+  const indicies: Array<number> = [];
   let maximum = 0;
 
-  const dfs = (indicies: Array<number>) => {
+  const backtrack = () => {
     if (numbersLength === indicies.length) {
       maximum = Math.max(maximum, sum(indicies));
       return;
@@ -47,11 +48,11 @@
       }
 
       indicies.push(i);
-      dfs(indicies);
+      backtrack();
       indicies.pop();
     }
   };
-  dfs([]);
+  backtrack();
 
   console.log(maximum);
 })();

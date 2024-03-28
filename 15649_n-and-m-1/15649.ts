@@ -17,9 +17,10 @@
 
   const [N, LENGTH] = lines[0];
   const result: Array<string> = [];
+  const sequence: Array<number> = [];
   // console.log(N, LENGTH);
 
-  const dfs = (sequence: Array<number>) => {
+  const backtrack = () => {
     if (sequence.length === LENGTH) {
       result.push(sequence.join(' '));
       return;
@@ -31,11 +32,11 @@
       }
 
       sequence.push(num);
-      dfs(sequence);
+      backtrack();
       sequence.pop();
     }
   };
-  dfs([]);
+  backtrack();
 
   console.log(result.join('\n'));
 })();
