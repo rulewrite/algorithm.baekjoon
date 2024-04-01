@@ -42,27 +42,27 @@
     minScore = Math.min(Math.abs(teamScores[0] - teamScores[1]), minScore);
   };
 
-  const backtrack = () => {
+  const backtrack = (index: Index) => {
     if (invites.size === teamCount) {
       // console.log(invites);
       setScore();
       return;
     }
 
-    for (let j = 0; j < N; ++j) {
+    for (let j = index + 1; j < N; ++j) {
       if (invites.has(j)) {
         continue;
       }
 
       invites.add(j);
-      backtrack();
+      backtrack(j);
       invites.delete(j);
     }
   };
 
   for (let i = 0; i < N; ++i) {
     invites.add(i);
-    backtrack();
+    backtrack(i);
     invites.delete(i);
   }
 
