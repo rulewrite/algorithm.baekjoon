@@ -32,6 +32,7 @@
     });
     const boardLastIndex = visitedBoard.length - 1;
     const queue = [{ node: start, step: 0 }];
+    visitedBoard[start.y][start.x] = true;
 
     while (queue.length) {
       const item = queue.shift();
@@ -44,18 +45,9 @@
         node: { x, y },
       } = item;
 
-      if (x > boardLastIndex || y > boardLastIndex || x < 0 || y < 0) {
-        continue;
-      }
-
       if (x === goal.x && y === goal.y) {
         return step;
       }
-
-      if (visitedBoard[y][x]) {
-        continue;
-      }
-      visitedBoard[y][x] = true;
 
       const nextStep = item.step + 1;
       // 11시부터 시계방향
@@ -93,7 +85,20 @@
             step: nextStep,
             node: { x: x - 2, y: y - 1 },
           },
-        ]
+        ].filter(({ node: neighborNode }) => {
+          if (
+            neighborNode.x > boardLastIndex ||
+            neighborNode.y > boardLastIndex ||
+            neighborNode.x < 0 ||
+            neighborNode.y < 0 ||
+            visitedBoard[neighborNode.y][neighborNode.x]
+          ) {
+            return false;
+          }
+
+          visitedBoard[neighborNode.y][neighborNode.x] = true;
+          return true;
+        })
       );
     }
 
