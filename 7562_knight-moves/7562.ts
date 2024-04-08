@@ -50,55 +50,33 @@
       }
 
       const nextStep = item.step + 1;
-      // 11시부터 시계방향
       queue.push(
         ...[
-          {
-            step: nextStep,
-            node: { x: x - 1, y: y - 2 },
-          },
-          {
-            step: nextStep,
-            node: { x: x + 1, y: y - 2 },
-          },
-          {
-            step: nextStep,
-            node: { x: x + 2, y: y - 1 },
-          },
-          {
-            step: nextStep,
-            node: { x: x + 2, y: y + 1 },
-          },
-          {
-            step: nextStep,
-            node: { x: x + 1, y: y + 2 },
-          },
-          {
-            step: nextStep,
-            node: { x: x - 1, y: y + 2 },
-          },
-          {
-            step: nextStep,
-            node: { x: x - 2, y: y + 1 },
-          },
-          {
-            step: nextStep,
-            node: { x: x - 2, y: y - 1 },
-          },
-        ].filter(({ node: neighborNode }) => {
-          if (
-            neighborNode.x > boardLastIndex ||
-            neighborNode.y > boardLastIndex ||
-            neighborNode.x < 0 ||
-            neighborNode.y < 0 ||
-            visitedBoard[neighborNode.y][neighborNode.x]
-          ) {
-            return false;
-          }
-
-          visitedBoard[neighborNode.y][neighborNode.x] = true;
-          return true;
-        })
+          { x: x - 1, y: y - 2 },
+          { x: x + 1, y: y - 2 },
+          { x: x + 2, y: y - 1 },
+          { x: x + 2, y: y + 1 },
+          { x: x + 1, y: y + 2 },
+          { x: x - 1, y: y + 2 },
+          { x: x - 2, y: y + 1 },
+          { x: x - 2, y: y - 1 },
+        ]
+          .filter((neighbor) => {
+            return !(
+              neighbor.x > boardLastIndex ||
+              neighbor.y > boardLastIndex ||
+              neighbor.x < 0 ||
+              neighbor.y < 0 ||
+              visitedBoard[neighbor.y][neighbor.x]
+            );
+          })
+          .map((neighbor) => {
+            visitedBoard[neighbor.y][neighbor.x] = true;
+            return {
+              step: nextStep,
+              node: neighbor,
+            };
+          })
       );
     }
 
