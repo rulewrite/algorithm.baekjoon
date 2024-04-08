@@ -46,31 +46,30 @@
       const { x, y } = node;
       const id = getId(node);
 
+      if (isVisiteds.has(id)) {
+        continue;
+      }
+
       isVisiteds.add(id);
+
+      if (!maze[node.y][node.x]) {
+        continue;
+      }
+
       if (x === goal.x && y === goal.y) {
         return step;
       }
 
       const nextStep = step + 1;
       // 상하좌우
-      [
-        { x, y: Math.max(y - 1, 0) },
-        { x, y: Math.min(y + 1, yLastIndex) },
-        { x: Math.max(x - 1, 0), y },
-        { x: Math.min(x + 1, xLastIndex), y },
-      ].forEach((neighbor) => {
-        const neighborId = getId(neighbor);
-
-        if (isVisiteds.has(neighborId)) {
-          return;
-        }
-
-        if (!maze[neighbor.y][neighbor.x]) {
-          return;
-        }
-
-        queue.push({ node: neighbor, step: nextStep });
-      });
+      queue.push(
+        ...[
+          { step: nextStep, node: { x, y: Math.max(y - 1, 0) } },
+          { step: nextStep, node: { x, y: Math.min(y + 1, yLastIndex) } },
+          { step: nextStep, node: { x: Math.max(x - 1, 0), y } },
+          { step: nextStep, node: { x: Math.min(x + 1, xLastIndex), y } },
+        ]
+      );
     }
 
     return -1;
