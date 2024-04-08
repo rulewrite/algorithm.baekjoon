@@ -50,34 +50,32 @@
       }
 
       const nextStep = item.step + 1;
-      queue.push(
-        ...[
-          { x: x - 1, y: y - 2 },
-          { x: x + 1, y: y - 2 },
-          { x: x + 2, y: y - 1 },
-          { x: x + 2, y: y + 1 },
-          { x: x + 1, y: y + 2 },
-          { x: x - 1, y: y + 2 },
-          { x: x - 2, y: y + 1 },
-          { x: x - 2, y: y - 1 },
-        ]
-          .filter((neighbor) => {
-            return !(
-              neighbor.x > boardLastIndex ||
-              neighbor.y > boardLastIndex ||
-              neighbor.x < 0 ||
-              neighbor.y < 0 ||
-              visitedBoard[neighbor.y][neighbor.x]
-            );
-          })
-          .map((neighbor) => {
-            visitedBoard[neighbor.y][neighbor.x] = true;
-            return {
-              step: nextStep,
-              node: neighbor,
-            };
-          })
-      );
+      [
+        { x: x - 1, y: y - 2 },
+        { x: x + 1, y: y - 2 },
+        { x: x + 2, y: y - 1 },
+        { x: x + 2, y: y + 1 },
+        { x: x + 1, y: y + 2 },
+        { x: x - 1, y: y + 2 },
+        { x: x - 2, y: y + 1 },
+        { x: x - 2, y: y - 1 },
+      ].forEach((neighbor) => {
+        if (
+          neighbor.x > boardLastIndex ||
+          neighbor.y > boardLastIndex ||
+          neighbor.x < 0 ||
+          neighbor.y < 0 ||
+          visitedBoard[neighbor.y][neighbor.x]
+        ) {
+          return;
+        }
+
+        visitedBoard[neighbor.y][neighbor.x] = true;
+        queue.push({
+          step: nextStep,
+          node: neighbor,
+        });
+      });
     }
 
     return -1;
