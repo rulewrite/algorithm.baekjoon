@@ -44,9 +44,7 @@
 
       const { node, step } = item;
       const { x, y } = node;
-      const id = getId(node);
 
-      isVisiteds.add(id);
       if (x === goal.x && y === goal.y) {
         return step;
       }
@@ -64,6 +62,7 @@
         if (isVisiteds.has(neighborId)) {
           return;
         }
+        isVisiteds.add(neighborId);
 
         if (!maze[neighbor.y][neighbor.x]) {
           return;
