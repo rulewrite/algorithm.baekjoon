@@ -35,10 +35,6 @@
     floorIndex: number;
   }
 
-  const getId = (node: Node): string => {
-    return `${node.rowIndex},${node.colIndex},${node.floorIndex}`;
-  };
-
   // 위아래-상하좌우
   const getNeighbors = (() => {
     const rowLastIndex = rowCount - 1;
@@ -76,82 +72,48 @@
     };
   })();
 
-  const hasIsolated = matrix.some((rows, floorIndex) => {
-    return rows.some((cols, rowIndex) => {
-      return cols.some((status, colIndex) => {
-        const node = { floorIndex, rowIndex, colIndex };
-
-        if (status !== Status.Unripe) {
-          return false;
+  let ripeTomatoes: Node[] = [];
+  matrix.forEach((rows, floorIndex) => {
+    rows.forEach((cols, rowIndex) => {
+      cols.forEach((status, colIndex) => {
+        if (status !== Status.Ripe) {
+          return;
         }
 
-        const hasRoute = getNeighbors(node).some((neighbor) => {
-          const status =
-            matrix[neighbor.floorIndex][neighbor.rowIndex][neighbor.colIndex];
-
-          return status !== Status.Empty;
-        });
-
-        return !hasRoute;
+        ripeTomatoes.push({ floorIndex, rowIndex, colIndex });
       });
     });
   });
 
-  if (hasIsolated) {
-    console.log(-1);
-    return;
-  }
-
   let time = 0;
-  while (true) {
-    const hasUnripen = matrix.some((rows) => {
-      return rows.some((cols) => {
-        return cols.includes(Status.Unripe);
-      });
-    });
-
-    if (!hasUnripen) {
-      console.log(time);
-
-      break;
-    }
-
+  while (ripeTomatoes.length > 0) {
     ++time;
-    const visiteds = new Set<string>();
-    matrix.forEach((rows, floorIndex) => {
-      rows.forEach((cols, rowIndex) => {
-        cols.forEach((status, colIndex) => {
-          const node = { floorIndex, rowIndex, colIndex };
+    const nextRipeTomatoes: Node[] = [];
 
-          if (status !== Status.Ripe) {
-            return;
-          }
+    ripeTomatoes.forEach((node) => {
+      getNeighbors(node).forEach((neighbor) => {
+        const status =
+          matrix[neighbor.floorIndex][neighbor.rowIndex][neighbor.colIndex];
 
-          const id = getId(node);
-          if (visiteds.has(id)) {
-            return;
-          }
-          visiteds.add(id);
+        if (status !== Status.Unripe) {
+          return;
+        }
 
-          getNeighbors(node).forEach((neighbor) => {
-            const id = getId(neighbor);
-            if (visiteds.has(id)) {
-              return;
-            }
-            visiteds.add(id);
+        matrix[neighbor.floorIndex][neighbor.rowIndex][neighbor.colIndex] =
+          Status.Ripe;
 
-            const status =
-              matrix[neighbor.floorIndex][neighbor.rowIndex][neighbor.colIndex];
-
-            if (status !== Status.Unripe) {
-              return;
-            }
-
-            matrix[neighbor.floorIndex][neighbor.rowIndex][neighbor.colIndex] =
-              Status.Ripe;
-          });
-        });
+        nextRipeTomatoes.push(neighbor);
       });
     });
+
+    ripeTomatoes = nextRipeTomatoes;
   }
+
+  const hasUnripe = matrix.some((rows) => {
+    return rows.some((cols) => {
+      return cols.includes(Status.Unripe);
+    });
+  });
+
+  console.log(hasUnripe ? -1 : time - 1);
 })();
