@@ -108,7 +108,7 @@
     id: Id;
     cost: Cost;
   }
-  type Graph = Map<Id, Map<Id, Cost>>;
+  type Graph = Map<Id, Map<Id, Set<Cost>>>;
 
   function dijkstra({
     vertexCount,
@@ -137,13 +137,15 @@
       }
 
       // 인접 노드 방문
-      graph.get(currentNode.id)?.forEach((toNeighborCost, neighbor) => {
-        const totalCost = distance[currentNode.id] + toNeighborCost;
-        // 새 경로 비용이 더 작다면 교체
-        if (distance[neighbor] > totalCost) {
-          distance[neighbor] = totalCost;
-          minHeap.push({ id: neighbor, cost: totalCost });
-        }
+      graph.get(currentNode.id)?.forEach((toNeighborCosts, neighbor) => {
+        toNeighborCosts.forEach((toNeighborCost) => {
+          const totalCost = distance[currentNode.id] + toNeighborCost;
+          // 새 경로 비용이 더 작다면 교체
+          if (distance[neighbor] > totalCost) {
+            distance[neighbor] = totalCost;
+            minHeap.push({ id: neighbor, cost: totalCost });
+          }
+        });
       });
     }
 
@@ -162,11 +164,13 @@
     inputs.slice(inputs.length - 1, inputs.length)[0],
   ];
 
-  const graph: Graph = edges.reduce((_graph, edge) => {
+  const graph = edges.reduce<Graph>((_graph, edge) => {
     const [vertex, neighbor, cost] = edge;
 
-    const vertexToNeighbor = _graph.get(vertex) ?? new Map();
-    vertexToNeighbor.set(neighbor, cost);
+    const vertexToNeighbor = _graph.get(vertex) ?? new Map<Id, Set<Cost>>();
+    const costs = vertexToNeighbor.get(neighbor) ?? new Set();
+    costs.add(cost);
+    vertexToNeighbor.set(neighbor, costs);
     _graph.set(vertex, vertexToNeighbor);
 
     return _graph;
