@@ -12,15 +12,15 @@
   class PriorityQueue<T = unknown> {
     private items: Array<T> = [];
 
-    get isEmpty(): boolean {
-      return this.size === 0;
+    constructor(private condition: (x: T, y: T) => boolean) {}
+
+    isEmpty(): boolean {
+      return this.size() === 0;
     }
 
-    get size(): number {
+    size(): number {
       return this.items.length;
     }
-
-    constructor(private condition: (x: T, y: T) => boolean) {}
 
     top(): T | null {
       return this.items[0] ?? null;
@@ -32,7 +32,7 @@
     }
 
     pop(): T | null {
-      if (this.size <= 1) {
+      if (this.size() <= 1) {
         return this.items.pop() ?? null;
       }
 
@@ -43,7 +43,7 @@
     }
 
     private bubbleUp(): void {
-      let currentIdx = this.size - 1;
+      let currentIdx = this.size() - 1;
 
       while (currentIdx > 0) {
         const parentIdx = Math.floor((currentIdx - 1) / 2);
@@ -60,12 +60,12 @@
 
     private sinkDown(): void {
       const last = this.items.pop();
-      if (!this.size || last === undefined) {
+      if (!this.size() || last === undefined) {
         return;
       }
       this.items[0] = last; // 제일 작은 원소를 첫 자리에 집어 넣는다.
 
-      const lastIndex = this.size - 1;
+      const lastIndex = this.size() - 1;
       let currentIdx = 0;
 
       while (true) {
@@ -129,7 +129,7 @@
     distance[start] = startToStartCost;
     minHeap.push({ id: start, cost: startToStartCost });
 
-    while (!minHeap.isEmpty) {
+    while (!minHeap.isEmpty()) {
       const currentNode = minHeap.pop() as Node; // 가장 짧은 노드 추출
 
       if (currentNode.id === end) {
@@ -139,7 +139,7 @@
       // 인접 노드 방문
       graph.get(currentNode.id)?.forEach((toNeighborCost, neighbor) => {
         const totalCost = distance[currentNode.id] + toNeighborCost;
-        // 기존 코스트가 더 크다면 교체
+        // 새 경로 비용이 더 작다면 교체
         if (distance[neighbor] > totalCost) {
           distance[neighbor] = totalCost;
           minHeap.push({ id: neighbor, cost: totalCost });
